@@ -21,7 +21,7 @@ Verbatim (abstract): 28 studies, 747 healthy adults, all sets to volitional fail
 moderate-load compared with low-load RT (SMD, 0.60-0.63 and 0.34-0.35, respectively)".
 High-load vs low-load strength: SMD 0.60, 95% CI 0.38-0.82 (P < 0.001).
 
-On-screen use: cards "STRENGTH LOVES HEAVY" and "HYPERTROPHY: ANY LOAD".
+On-screen use: cards "STRENGTH FAVORS HEAVY" and "HYPERTROPHY: EITHER LOAD".
 
 ## 3. Schoenfeld BJ, Ogborn D, Krieger JW — Dose-response relationship between weekly resistance training volume and increases in muscle mass
 J Sports Sci. 2017;35(11):1073-1082.
