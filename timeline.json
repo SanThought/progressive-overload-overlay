@@ -1,16 +1,17 @@
 {
   "source_video_seconds": 28.47,
   "timing_source": "faster-whisper small, word_timestamps=True, language=es",
-  "final_timeline_seconds": {"intro": [0, 5], "main": [5, 33.47], "outro": [33.47, 38.47]},
+  "final_timeline_seconds": {"intro": [0, 5], "main": [5, 35.07], "outro": [35.07, 40.07],
+    "note": "main = speech 28.47s + 1.6s freeze-frame tail (tpad clone) so card D stays readable after speech ends"},
   "overlays_main_local": [
     {"card": "cardA.png", "headline": "PROGRESSIVE OVERLOAD", "in": 3.0, "out": 9.0,
      "anchored_to": "lo ideal es realizar una carga progresiva de entrenamiento (3.12-5.84)"},
     {"card": "cardB.png", "headline": "THE 2-10% RULE", "in": 11.5, "out": 20.5,
      "anchored_to": "controlo 10 kg en sentadilla (12.00-15.32), aumentar un poco mas del peso (18.70-20.16)"},
-    {"card": "cardC.png", "headline": "STRENGTH LOVES HEAVY", "in": 21.0, "out": 25.6,
+    {"card": "cardC.png", "headline": "STRENGTH FAVORS HEAVY", "in": 21.0, "out": 25.6,
      "anchored_to": "desarrollar un poco mas de fuerza (21.10-23.68)"},
-    {"card": "cardD.png", "headline": "HYPERTROPHY: ANY LOAD", "in": 25.8, "out": 28.35,
-     "anchored_to": "para generar hipertrofia (26.20-27.08)"}
+    {"card": "cardD.png", "headline": "HYPERTROPHY: EITHER LOAD", "in": 25.6, "out": 29.9,
+     "anchored_to": "para generar hipertrofia (26.20-27.08); holds through the 1.6s freeze tail"}
   ],
   "subtitles": "subs.ass, 8 cues, English, cut on word timestamps"
 }
