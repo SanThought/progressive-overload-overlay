@@ -1,0 +1,21 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 474
+PlayResY: 850
+ScaledBorderAndShadow: yes
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Sub,InterSubs,25,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,2.2,0,2,26,26,58,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:03.00,Sub,,0,0,0,,So, when you train at the gym,
+Dialogue: 0,0:00:03.10,0:00:05.85,Sub,,0,0,0,,the ideal is a progressive\Ntraining load,
+Dialogue: 0,0:00:06.50,0:00:08.80,Sub,,0,0,0,,starting from a weight\Nyou can control.
+Dialogue: 0,0:00:09.90,0:00:13.70,Sub,,0,0,0,,Say I control 10 kg\Non the squat {\i1}-{\i0}
+Dialogue: 0,0:00:16.30,0:00:20.20,Sub,,0,0,0,,I keep going until I can add\Na bit more weight,
+Dialogue: 0,0:00:20.20,0:00:23.70,Sub,,0,0,0,,to build a bit more strength,
+Dialogue: 0,0:00:23.70,0:00:27.10,Sub,,0,0,0,,to handle heavier loads and\Ngenerate hypertrophy,
+Dialogue: 0,0:00:27.40,0:00:28.42,Sub,,0,0,0,,and just keep progressing.
