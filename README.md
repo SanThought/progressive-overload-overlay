@@ -30,6 +30,6 @@ parten por frase sobre los timestamps de palabra, no por estimación.
 
 ## Archivos
 
-- Render final: `final.mp4` (38.5 s, 474x850, 30 fps, ~5.3 MB).
+- Render final: `final.mp4` (38.5 s, 474x850, 30 fps; copia del repo crf 23, ~2.8 MB).
 - Las PNG de las tarjetas no se suben: las regenera el paso 1.
 - El video fuente no se incluye (material privado de la conversación).
