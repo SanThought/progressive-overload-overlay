@@ -19,13 +19,13 @@ def font(path, size, wght):
     except Exception: pass
     return f
 
-def card(fname, headline, lines, src):
+def card(fname, headline, lines, src, hsize=30):
     cw, ch = 414, 176
     img = Image.new("RGBA", (cw, ch), (0, 0, 0, 0)); d = ImageDraw.Draw(img)
     d.rounded_rectangle([0, 0, cw-1, ch-1], radius=14, fill=(10, 10, 12, 215))
     d.rounded_rectangle([0, 0, 7, ch-1], radius=3, fill=VOLT + (255,))
-    d.text((26, 16), headline, font=font(SG, 30, 700), fill=VOLT)
-    y = 58
+    d.text((26, 16), headline, font=font(SG, hsize, 700), fill=VOLT)
+    y = 54 if hsize < 30 else 58
     for ln in lines:
         d.text((26, y), ln, font=font(IT, 21, 500), fill=WHITE); y += 29
     d.text((26, ch-34), src, font=font(IT, 17, 400), fill=GRAY)
@@ -37,12 +37,12 @@ card("cardA.png", "PROGRESSIVE OVERLOAD",
 card("cardB.png", "THE 2-10% RULE",
      ["Hit 1-2 reps over your target,", "then add 2-10% load. That is", "the published progression rule."],
      "Source: ACSM Position Stand - MSSE 2009")
-card("cardC.png", "STRENGTH LOVES HEAVY",
-     ["Heavy loads beat light loads", "for strength: SMD 0.60", "(95% CI 0.38-0.82)."],
+card("cardC.png", "STRENGTH FAVORS HEAVY",
+     ["High loads built more strength", "than low loads, all sets to", "failure: SMD 0.60 (CI 0.38-0.82)."],
      "Source: Lopez et al. 2021 - 28 studies, 747 adults")
-card("cardD.png", "HYPERTROPHY: ANY LOAD",
-     ["Sets to failure grow muscle", "equally at light and heavy loads", "(P = 0.11-0.47)."],
-     "Source: Lopez et al. 2021 - MSSE")
+card("cardD.png", "HYPERTROPHY: EITHER LOAD",
+     ["Sets to failure: light and", "heavy loads grew muscle", "similarly (P = 0.11-0.47)."],
+     "Source: Lopez et al. 2021 - MSSE", hsize=26)
 
 def wrap(d, text, f, maxw):
     words = text.split(); lines = []; cur = ""
@@ -83,7 +83,7 @@ img.save("assets/outro.png")
 
 # filtergraph (see timeline.json for the timing derivation)
 cards = [  # (input_idx, T0 main-local, dur)
-    (3, 3.0, 6.0), (4, 11.5, 9.0), (5, 21.0, 4.6), (6, 25.8, 2.55),
+    (3, 3.0, 6.0), (4, 11.5, 9.0), (5, 21.0, 4.6), (6, 25.6, 4.3),
 ]
 lines = ["[0:v]fps=30,scale=474:850,format=rgba[base]"]
 prev = "[base]"
@@ -92,17 +92,20 @@ for i, (idx, t0, dur) in enumerate(cards):
                  f"fade=t=out:st={dur-0.3:.2f}:d=0.30:alpha=1,setpts=PTS-STARTPTS+{t0}/TB[c{i}]")
     lines.append(f"{prev}[c{i}]overlay=x=30:y=36-212*max(0\\,1-(t-{t0})/0.35):eof_action=pass[v{i+1}]")
     prev = f"[v{i+1}]"
-lines.append(f"{prev}ass='subs.ass',fade=t=in:st=0:d=0.4,fade=t=out:st=27.97:d=0.5,"
-             "format=yuv420p,setsar=1[vmain]")
-zp = ("scale=948:1700,zoompan=z='1+0.05*on/150':x='iw/2-(iw/zoom/2)':"
+# freeze-tail: last frame cloned 1.6s so card D stays readable after speech ends
+lines.append(f"{prev}ass='subs.ass',tpad=stop_mode=clone:stop=1.6,"
+             "fade=t=in:st=0:d=0.4,fade=t=out:st=29.57:d=0.5,format=yuv420p,setsar=1[vmain]")
+zp = ("fps=30,scale=948:1700,zoompan=z='1+0.05*on/150':x='iw/2-(iw/zoom/2)':"
       "y='ih/2-(ih/zoom/2)':d=1:s=474x850:fps=30")
 lines.append(f"[1:v]{zp},fade=t=in:st=0:d=0.5,fade=t=out:st=4.5:d=0.5,format=yuv420p,setsar=1[vintro]")
 lines.append(f"[2:v]{zp},fade=t=in:st=0:d=0.5,fade=t=out:st=4.5:d=0.5,format=yuv420p,setsar=1[voutro]")
-lines.append("[0:a]aresample=48000,aformat=channel_layouts=stereo[amain]")
+lines.append("[0:a]aresample=48000,aformat=channel_layouts=stereo,apad=whole_dur=30.07[amain]")
 for k, lbl in ((7, "aintro"), (8, "aoutro")):
     lines.append(f"[{k}:a]afade=t=in:st=0:d=1.2,afade=t=out:st=3.8:d=1.2,"
                  f"aresample=48000,aformat=channel_layouts=stereo[{lbl}]")
-lines.append("[vintro][aintro][vmain][amain][voutro][aoutro]concat=n=3:v=1:a=1[v][a]")
+lines.append("[vintro][aintro][vmain][amain][voutro][aoutro]concat=n=3:v=1:a=1[vc][ac]")
+lines.append("[vc]tpad=stop_mode=clone:stop=1.0,trim=end=40.08,setpts=PTS-STARTPTS[v]")
+lines.append("[ac]atrim=end=40.08,asetpts=PTS-STARTPTS[a]")
 open("graph.txt", "w").write(";\n".join(lines))
 
 tone = "aevalsrc=0.09*sin(2*PI*98*t)+0.05*sin(2*PI*147*t):s=48000"
@@ -112,7 +115,7 @@ cmd = ["ffmpeg", "-y", "-loglevel", "warning", "-i", "src.mp4",
        "-loop", "1", "-t", "6.0", "-i", "assets/cardA.png",
        "-loop", "1", "-t", "9.0", "-i", "assets/cardB.png",
        "-loop", "1", "-t", "4.6", "-i", "assets/cardC.png",
-       "-loop", "1", "-t", "2.6", "-i", "assets/cardD.png",
+       "-loop", "1", "-t", "4.4", "-i", "assets/cardD.png",
        "-f", "lavfi", "-t", "5", "-i", tone,
        "-f", "lavfi", "-t", "5", "-i", tone,
        "-filter_complex_script", "graph.txt", "-map", "[v]", "-map", "[a]",
